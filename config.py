@@ -51,6 +51,14 @@ c.content.plugins = True
 #   - none: Don't use any proxy
 c.content.proxy = 'http://localhost:8118'
 
+# Font used in the completion categories.
+# Type: Font
+c.fonts.completion.category = 'bold 10pt monospace'
+
+# Font used in the completion widget.
+# Type: Font
+c.fonts.completion.entry = '10pt monospace'
+
 # Font used for the hints.
 # Type: Font
 c.fonts.hints = 'bold 12pt monospace'
@@ -58,6 +66,10 @@ c.fonts.hints = 'bold 12pt monospace'
 # Font used in the statusbar.
 # Type: Font
 c.fonts.statusbar = '10pt monospace'
+
+# Font used in the tab bar.
+# Type: QtFont
+c.fonts.tabs = '10pt monospace'
 
 # Which window to choose when opening links as new tabs. When
 # `new_instance_open_target` is not set to `window`, this is ignored.
