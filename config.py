@@ -6,10 +6,14 @@
 # Uncomment this to still load settings configured via autoconfig.yml
 # config.load_autoconfig()
 
+# pylint: disable=C0111
+c = c  # noqa: F821 pylint: disable=E0602,C0103
+config = config  # noqa: F821 pylint: disable=E0602,C0103
+
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
 # Type: QssColor
-c.colors.hints.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.4), stop:1 rgba(255, 197, 66, 0.4))'
+c.colors.hints.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.7), stop:1 rgba(255, 197, 66, 0.7))'
 
 # Background color of the tab bar.
 # Type: QtColor
@@ -25,7 +29,7 @@ c.colors.tabs.odd.bg = '#424242'
 
 # Background color of selected even tabs.
 # Type: QtColor
-c.colors.tabs.selected.even.bg = '#FAFAFA'
+c.colors.tabs.selected.even.bg = '#f47e17'
 
 # Foreground color of selected even tabs.
 # Type: QtColor
@@ -33,11 +37,20 @@ c.colors.tabs.selected.even.fg = 'black'
 
 # Background color of selected odd tabs.
 # Type: QtColor
-c.colors.tabs.selected.odd.bg = '#FAFAFA'
+c.colors.tabs.selected.odd.bg = '#f47e17'
 
 # Foreground color of selected odd tabs.
 # Type: QtColor
 c.colors.tabs.selected.odd.fg = 'black'
+
+# Whether quitting the application requires a confirmation.
+# Type: ConfirmQuit
+# Valid values:
+#   - always: Always show a confirmation.
+#   - multiple-tabs: Show a confirmation if multiple tabs are opened.
+#   - downloads: Show a confirmation if downloads are running
+#   - never: Never show a confirmation.
+c.confirm_quit = ['downloads']
 
 # Enables or disables plugins in Web pages.
 # Type: Bool
@@ -51,13 +64,8 @@ c.content.plugins = True
 #   - none: Don't use any proxy
 c.content.proxy = 'http://localhost:8118'
 
-# Font used in the completion categories.
-# Type: Font
-c.fonts.completion.category = 'bold 10pt monospace'
-
-# Font used in the completion widget.
-# Type: Font
-c.fonts.completion.entry = '10pt monospace'
+c.downloads.location.suggestion = 'both'
+c.downloads.remove_finished = 30000
 
 # Font used for the hints.
 # Type: Font
@@ -67,9 +75,7 @@ c.fonts.hints = 'bold 12pt monospace'
 # Type: Font
 c.fonts.statusbar = '10pt monospace'
 
-# Font used in the tab bar.
-# Type: QtFont
-c.fonts.tabs = '10pt monospace'
+c.fonts.tabs = '8pt monospace'
 
 # Which window to choose when opening links as new tabs. When
 # `new_instance_open_target` is not set to `window`, this is ignored.
@@ -84,7 +90,7 @@ c.new_instance_open_target_window = 'last-focused'
 # Enable smooth scrolling for web pages. Note smooth scrolling does not
 # work with the `:scroll-px` command.
 # Type: Bool
-c.scrolling.smooth = True
+c.scrolling.smooth = False
 
 # Open new tabs (middleclick/ctrl+click) in the background.
 # Type: Bool
@@ -115,7 +121,9 @@ c.tabs.show = 'always'
 # The width of the tab bar if it's vertical, in px or as percentage of
 # the window.
 # Type: PercOrInt
-c.tabs.width.bar = '15%'
+c.tabs.width = '12%'
+
+c.tabs.close_mouse_button_on_bar = 'close-current'
 
 # Definitions of search engines which can be used via the address bar.
 # Maps a searchengine name (such as `DEFAULT`, or `ddg`) to a URL with a
@@ -126,4 +134,24 @@ c.tabs.width.bar = '15%'
 # used by prepending the search engine name to the search term, e.g.
 # `:open google qutebrowser`.
 # Type: Dict
-c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}', 'google': 'https://google.nl/search?q={}'}
+c.url.searchengines = {
+    'DEFAULT': 'https://google.nl/search?q={}',
+    'gh': 'https://github.com/search?q={}',
+    'cgh': 'https://github.corp.ebay.com/search?q={}',
+    'yt': 'https://youtube.com/search?q={}'
+}
+
+c.session.lazy_restore = True
+
+# Bindings for normal mode
+config.bind(',c', 'spawn google-chrome-stable {url}')
+#config.bind(',v', 'spawn mpv {url}')
+config.bind(',v', 'spawn --userscript mpvOpen')
+config.bind(',V', 'hint links userscript mpvOpen')
+config.bind(',r', 'spawn --userscript screenReader')
+config.bind(',l', 'spawn --userscript lookupWord')
+config.bind(',g', 'spawn --userscript googleSelected')
+config.bind(',zb', 'set zoom.default 180% ;; zoom 180%')
+config.bind(',zm', 'set zoom.default 140% ;; zoom 140%')
+config.bind(',zn', 'set zoom.default 100% ;; zoom 100%')
+config.bind(',d', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/themes/css/globalDark.css "" ;; reload')
